@@ -1,0 +1,228 @@
+{
+  "world_meta": {
+    "name": "Clam-Men of Vargon!",
+    "version": "1.2-dialogue",
+    "starting_node": "node_cargo_bay",
+    "description": "A campy 1960s sci-fi adventure."
+  },
+  "templates": {
+    "power_cell": { "name": "Power Cell", "description": "A pulsating, gelatinous power cell." },
+    "ray_gun": { "name": "Ray Gun", "description": "A chrome-plated atomic ray gun." },
+    "console": { "name": "Console", "description": "A console humming with cosmic energy." },
+    "lever": { "name": "Large Lever", "description": "A comically large plastic lever." },
+    "blinking_lights": { "name": "Blinking Lights", "description": "A panel of inscrutable blinking lights." },
+    "puzzle_tracker": { "name": "Puzzle Tracker", "description": "Internal tracker." },
+    "clam_man_npc": { "name": "Dying Clam-Man", "description": "A humanoid clam-creature, gurgling its last breaths."}
+  },
+  "entities": {
+    "main_power_puzzle": { "template": "puzzle_tracker", "location": "node_bridge", "state": "power_off" },
+    "lever_A": { "template": "lever", "location": "node_bridge", "state": "up" },
+    "lever_B": { "template": "lever", "location": "node_bridge", "state": "up" },
+    "lever_C": { "template": "lever", "location": "node_bridge", "state": "up" },
+    "power_cell_1": { "template": "power_cell", "location": "node_engine_room", "state": "visible" },
+    "aux_console": { "template": "console", "location": "node_aux_power", "state": "off" },
+    "ray_gun_1": { "template": "ray_gun", "location": "unspawned", "state": "unspawned" },
+    "panel_1": { "template": "blinking_lights", "location": "node_corridor_main" },
+    "dying_clam_man": { "template": "clam_man_npc", "location": "node_med_bay", "state": "alive" }
+  },
+  "custom_actions": {
+    "act_talk_to_clam_man": {
+      "display_text": "Talk to Clam-Man",
+      "requires": { "entity_states": [{ "entity_id": "dying_clam_man", "state": "alive" }]},
+      "effects": {
+        "start_dialogue_id": "clam_man_intro"
+      }
+    },
+    "act_take_power_cell": {
+      "display_text": "Take Power Cell",
+      "feedback": { "text": "You grab the wobbly Power Cell. It feels... moist." },
+      "requires": { "entity_states": [{ "entity_id": "power_cell_1", "state": "visible" }] },
+      "effects": {
+        "add_to_inventory": ["power_cell_1"],
+        "change_entity_states": [{ "entity_id": "power_cell_1", "new_state": "taken" }]
+      }
+    },
+    "act_examine_lights": {
+      "display_text": "Examine Lights",
+      "feedback": { "text": "The lights blink in a hypnotic, meaningless pattern." }
+    },
+    "act_insert_cell": {
+      "display_text": "Insert Power Cell",
+      "feedback": { "text": "The console hums to life! Emergency power is on!" },
+      "failure_message": "You have nothing to insert into the console's slot.",
+      "requires": {
+        "in_inventory": ["power_cell_1"],
+        "entity_states": [{ "entity_id": "aux_console", "state": "off" }]
+      },
+      "effects": {
+        "remove_from_inventory": ["power_cell_1"],
+        "change_entity_states": [
+          { "entity_id": "aux_console", "new_state": "on" },
+          { "entity_id": "main_power_puzzle", "new_state": "power_on" }
+        ]
+      }
+    },
+    "act_pull_lever_A": {
+      "display_text": "Pull Red Lever",
+      "feedback": { "text": "KLUNK! The red lever is now down." },
+      "requires": { "entity_states": [{ "entity_id": "main_power_puzzle", "state": "power_on" }, { "entity_id": "lever_A", "state": "up" }] },
+      "effects": { "change_entity_states": [{ "entity_id": "lever_A", "new_state": "down" }] }
+    },
+    "act_push_lever_A": {
+      "display_text": "Push Red Lever",
+      "feedback": { "text": "CLANK! The red lever is now up." },
+      "requires": { "entity_states": [{ "entity_id": "main_power_puzzle", "state": "power_on" }, { "entity_id": "lever_A", "state": "down" }] },
+      "effects": { "change_entity_states": [{ "entity_id": "lever_A", "new_state": "up" }] }
+    },
+    "act_pull_lever_B": {
+      "display_text": "Pull Blue Lever",
+      "feedback": { "text": "THWUMP! The blue lever is now down." },
+      "requires": { "entity_states": [{ "entity_id": "main_power_puzzle", "state": "power_on" }, { "entity_id": "lever_B", "state": "up" }] },
+      "effects": { "change_entity_states": [{ "entity_id": "lever_B", "new_state": "down" }] }
+    },
+    "act_push_lever_B": {
+      "display_text": "Push Blue Lever",
+      "feedback": { "text": "CLANK! The blue lever is now up." },
+      "requires": { "entity_states": [{ "entity_id": "main_power_puzzle", "state": "power_on" }, { "entity_id": "lever_B", "state": "down" }] },
+      "effects": { "change_entity_states": [{ "entity_id": "lever_B", "new_state": "up" }] }
+    },
+    "act_pull_lever_C": {
+      "display_text": "Pull Green Lever",
+      "feedback": { "text": "BZZT! The green lever is now down." },
+      "requires": { "entity_states": [{ "entity_id": "main_power_puzzle", "state": "power_on" }, { "entity_id": "lever_C", "state": "up" }] },
+      "effects": { "change_entity_states": [{ "entity_id": "lever_C", "new_state": "down" }] }
+    },
+    "act_push_lever_C": {
+      "display_text": "Push Green Lever",
+      "feedback": { "text": "CLANK! The green lever is now up." },
+      "requires": { "entity_states": [{ "entity_id": "main_power_puzzle", "state": "power_on" }, { "entity_id": "lever_C", "state": "down" }] },
+      "effects": { "change_entity_states": [{ "entity_id": "lever_C", "new_state": "up" }] }
+    },
+    "act_open_door": {
+      "display_text": "Open Main Door",
+      "feedback": { "text": "WHOOSH! The main door slides open! You can escape!" },
+      "failure_message": "A siren blares! That's not the right combination!",
+      "requires": {
+        "entity_states": [
+          { "entity_id": "lever_A", "state": "down" },
+          { "entity_id": "lever_B", "state": "up" },
+          { "entity_id": "lever_C", "state": "down" }
+        ]
+      },
+      "effects": { "unblock_exits": [{ "from_node": "node_bridge", "direction": "north" }] }
+    },
+    "act_levers_dead": {
+        "display_text": "Fiddle With Levers",
+        "feedback": {"text": "The levers are cold and lifeless. They need power."},
+        "requires": {"entity_states": [{"entity_id": "main_power_puzzle", "state": "power_off"}]}
+    }
+  },
+  "dialogues": {
+    "clam_man_intro": {
+      "npc_text": "Gurgle... A survivor... You must... you must escape this wreck...",
+      "options": [
+        { "display_text": "Who are you?", "target_dialogue_node_id": "clam_man_who" },
+        { "display_text": "What happened here?", "target_dialogue_node_id": "clam_man_what" }
+      ]
+    },
+    "clam_man_who": {
+      "npc_text": "I am... was... a pilot. My name is unimportant. My ship... she is dead...",
+      "options": [
+        { "display_text": "How do I get out?", "target_dialogue_node_id": "clam_man_escape" }
+      ]
+    },
+    "clam_man_what": {
+      "npc_text": "We were attacked... by stellar radiation... The ship is powerless...",
+      "options": [
+        { "display_text": "How do I get out?", "target_dialogue_node_id": "clam_man_escape" }
+      ]
+    },
+    "clam_man_escape": {
+      "npc_text": "The main door on the bridge... it needs power. You must restart the engine...",
+      "options": [
+        { "display_text": "What do I do?", "target_dialogue_node_id": "clam_man_clue" }
+      ]
+    },
+    "clam_man_clue": {
+      "npc_text": "The levers... on the bridge... Down, Up, Down. Remember... Please take this... *gurgle*...",
+      "options": [
+        {
+          "display_text": "Take the offered item",
+          "target_dialogue_node_id": "clam_man_dead",
+          "effects": {
+            "add_to_inventory": ["ray_gun_1"],
+            "change_entity_states": [{ "entity_id": "ray_gun_1", "new_state": "taken" }]
+          }
+        }
+      ]
+    },
+    "clam_man_dead": {
+      "npc_text": "The Clam-Man goes still. You have his Ray Gun now.",
+      "options": [
+        { "display_text": "Leave", "target_dialogue_node_id": "", "effects": {"change_entity_states": [{"entity_id": "dying_clam_man", "new_state": "dead"}]} }
+      ]
+    }
+  },
+  "nodes": {
+    "node_cargo_bay": {
+      "name": "Cargo Bay",
+      "fullscreen_text": "You awaken in a dark cargo bay. Strange alien crates are everywhere.",
+      "exits": { "north": "node_corridor_main" }
+    },
+    "node_corridor_main": {
+      "name": "Main Corridor",
+      "fullscreen_text": "A sterile metal corridor stretches before you. It splits east and west.",
+      "exits": { "south": "node_cargo_bay", "east": "node_engine_room", "west": "node_med_bay", "north": "node_bridge"},
+      "interactions": [
+        [{ "action_id": "act_examine_lights" }]
+      ]
+    },
+    "node_engine_room": {
+      "name": "Engine Room",
+      "fullscreen_text": "The ship's engine is silent. A wobbly power cell sits on a console.",
+      "exits": { "west": "node_corridor_main" },
+      "interactions": [
+        [{ "action_id": "act_take_power_cell" }]
+      ]
+    },
+    "node_med_bay": {
+      "name": "Med-Bay",
+      "fullscreen_text": "An eerie Med-Bay. A dying Clam-Man is slumped against a surgical tray.",
+      "exits": { "east": "node_corridor_main", "south": "node_aux_power" },
+      "interactions": [
+        [{ "action_id": "act_talk_to_clam_man" }]
+      ]
+    },
+    "node_aux_power": {
+      "name": "Auxiliary Power",
+      "fullscreen_text": "This must be the auxiliary power station. There's a slot in the console.",
+      "exits": { "north": "node_med_bay" },
+      "interactions": [
+        [{ "action_id": "act_insert_cell" }]
+      ]
+    },
+    "node_bridge": {
+      "name": "The Bridge",
+      "fullscreen_text": "The bridge! A large door blocks the way north. Three levers are on the wall.",
+      "exits": {
+        "south": "node_corridor_main",
+        "north": { "target_node": "node_exit", "blocked": true, "blocked_message": "The main door is sealed." }
+      },
+      "interactions": [
+        [ { "action_id": "act_push_lever_A" }, { "action_id": "act_pull_lever_A" }, {"action_id": "act_levers_dead"} ],
+        [ { "action_id": "act_push_lever_B" }, { "action_id": "act_pull_lever_B" }, {"action_id": "act_levers_dead"} ],
+        [ { "action_id": "act_push_lever_C" }, { "action_id": "act_pull_lever_C" }, {"action_id": "act_levers_dead"} ],
+        [ { "action_id": "act_open_door" } ]
+      ]
+    },
+    "node_exit": {
+      "name": "Freedom!",
+      "fullscreen_text": "You've escaped the saucer and now stand on the strange surface of Planet Vargon!",
+      "exits": {}
+    }
+  },
+  "player": {
+    "starting_location": "node_cargo_bay",
+    "inventory": []
+  }
+}

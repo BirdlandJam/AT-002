@@ -1,0 +1,114 @@
+/* Basic setup */
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #1a1a1a;
+  color: #f0f0f0;
+  height: 100vh;
+  overflow: hidden; /* Prevents scrollbars */
+}
+
+/* New layout classes for our React component */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background-color: #2a2a2a;
+  border-bottom: 1px solid #444;
+  flex-shrink: 0;
+}
+
+.app-header h1 {
+  font-size: 1.2em;
+}
+
+.app-main-content {
+  display: flex;
+  flex-grow: 1;
+}
+
+.map-canvas {
+  flex-grow: 1;
+}
+
+.inspector-panel {
+  width: 300px;
+  flex-shrink: 0;
+  background-color: #2f2f2f;
+  border-left: 1px solid #444;
+  padding: 15px;
+}
+
+.placeholder-text {
+  color: #666;
+}
+
+.directional-node {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 120px;
+  height: 120px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background: #333;
+}
+
+/* Base style for all handles */
+.directional-node .react-flow__handle {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  position: absolute;
+  z-index: 1;
+}
+
+/* Source Handle Colors & Shapes (Green, pointing OUT) */
+.handle-source-north { border-width: 0 5px 8px 5px; border-color: transparent transparent #4CAF50 transparent; top: -8px; left: 66%; }
+.handle-source-east  { border-width: 5px 0 5px 8px; border-color: transparent transparent transparent #4CAF50; right: -8px; top: 33%; }
+.handle-source-south { border-width: 8px 5px 0 5px; border-color: #4CAF50 transparent transparent transparent; bottom: -8px; left: 33%; }
+.handle-source-west  { border-width: 5px 8px 5px 0; border-color: transparent #4CAF50 transparent transparent; left: -8px; top: 66%; }
+
+/* Target Handle Colors & Shapes (Blue, pointing IN) */
+.handle-target-north { border-width: 8px 5px 0px 5px; border-color: #2196F3 transparent transparent transparent; top: 0; left: 33%; }
+.handle-target-east  { border-width: 5px 8px 5px 0; border-color: transparent #2196F3 transparent transparent; right: 0; top: 66%; }
+.handle-target-south { border-width: 0 5px 8px 5px; border-color: transparent transparent #2196F3 transparent; bottom: 0; left: 66%; }
+.handle-target-west  { border-width: 5px 0 5px 8px; border-color: transparent transparent transparent #2196F3; left: 0; top: 33%; }
+
+
+.collapsible-section {
+  border-top: 1px solid #444;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.collapsible-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none; /* Prevents text selection on click */
+}
+
+.collapsible-header:hover {
+  color: #aaa;
+}
+
+.collapsible-toggle {
+  font-size: 1.5em;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.collapsible-content {
+  padding-top: 10px;
+}
